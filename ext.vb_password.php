@@ -67,7 +67,17 @@ class Vb_password_ext
         $sql.= "WHERE username LIKE '%[" . $username . "]%'";
 
         $db = $this->getDbConnection();
-        return $db->query($sql);
+        $result = $db->query($sql);
+
+        if($result !== true){
+            throw new \RuntimeException('VB DB Error on update, ' . $db->error);
+        }
+
+        if($db->affected_rows !== 1){
+            throw new \RuntimeException("VB DB User '$username' not found");
+        }
+
+        return $result;
     }
 
     /**
