@@ -14,5 +14,5 @@ return array(
     'description'    => '',
     'version'        => VB_PASSWORD_VERSION,
     'namespace'      => 'AW\VbPassword',
-    'settings_exist' => false,
+    'settings_exist' => true,
 );
