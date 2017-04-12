@@ -48,9 +48,6 @@ class Vb_password_ext
             }catch(\Exception $e){
                 error_log($e);
             }
-
-            var_dump('update', $username, $password);
-            exit;
         }
     }
 
