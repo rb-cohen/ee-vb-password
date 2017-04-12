@@ -3,10 +3,11 @@
 $lang = array(
 
     'vb_password'     => 'VB Password',
-    'v:db_host'       => 'Database hostname',
-    'v:db_user'       => 'Database user',
-    'v:db_password'   => 'Database password',
-    'v:db_name'       => 'Database name',
-    'v:db_port'       => 'Database port',
+    'vbp:db_host'       => 'Database hostname',
+    'vbp:db_user'       => 'Database user',
+    'vbp:db_password'   => 'Database password',
+    'vbp:db_name'       => 'Database name',
+    'vbp:db_port'       => 'Database port',
+    'vbp:password_salt' => 'Password salt',
 
 );
