@@ -102,7 +102,7 @@ class Vb_password_ext
      * @return string
      */
     public function getSalt(){
-        return 'SWA';
+        return $this->settings['password_salt'];
     }
 
     /**
@@ -156,11 +156,12 @@ class Vb_password_ext
     public function settings(){
         $settings = array();
 
-        $settings['db_host']      = array('i', '', "localhost");
-        $settings['db_user']      = array('i', '', "dbuser");
-        $settings['db_password']      = array('i', '', "");
-        $settings['db_name']      = array('i', '', "forum");
-        $settings['db_port']      = array('i', '', "3306");
+        $settings['vbp:db_host']      = array('i', '', "localhost");
+        $settings['vbp:db_user']      = array('i', '', "dbuser");
+        $settings['vbp:db_password']      = array('i', '', "");
+        $settings['vbp:db_name']      = array('i', '', "forum");
+        $settings['vbp:db_port']      = array('i', '', "3306");
+        $settings['vbp:password_salt']      = array('i', '', "");
 
         return $settings;
     }
