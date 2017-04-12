@@ -16,7 +16,7 @@ class Vb_password_ext
     public $name = VB_PASSWORD_NAME;
     public $description = 'Updates the password of a vbuser when changed in EE';
     public $docs_url = '';
-    public $settings_exist = false;
+    public $settings_exist = true;
     public $settings = array();
     public $hooks = array(
         'updateVbPassword' => 'after_member_save'
