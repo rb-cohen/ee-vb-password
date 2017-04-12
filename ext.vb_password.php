@@ -102,18 +102,18 @@ class Vb_password_ext
      * @return string
      */
     public function getSalt(){
-        return $this->settings['password_salt'];
+        return $this->settings['vbp:password_salt'];
     }
 
     /**
      * @return mysqli
      */
     public function getDbConnection(){
-        $host = $this->settings['db_host'];
-        $user = $this->settings['db_user'];
-        $password = $this->settings['db_password'];
-        $dbname = $this->settings['db_name'];
-        $port = $this->settings['db_port'];
+        $host = $this->settings['vbp:db_host'];
+        $user = $this->settings['vbp:db_user'];
+        $password = $this->settings['vbp:db_password'];
+        $dbname = $this->settings['vbp:db_name'];
+        $port = $this->settings['vbp:db_port'];
 
         if(empty($port)){
             $port = '3306';
