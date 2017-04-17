@@ -1,13 +1,12 @@
 <?php if (!defined('BASEPATH')) die('No direct script access allowed');
 
 /**
- * Visitor Module Extension File
+ * vBulletin password updater Extension File
  *
- * @package         DevDemon_Visitor
- * @author          DevDemon <http://www.devdemon.com> - Lead Developer @ Parscale Media
- * @copyright       Copyright (c) 2007-2016 Parscale Media <http://www.parscale.com>
- * @license         http://www.devdemon.com/license/
- * @link            http://www.devdemon.com
+ * @package         VB_Password
+ * @author          Arron Woods <http://www.arronwoods.com>
+ * @license         MIT
+ * @link            http://www.arronwoods.com
  * @see             https://docs.expressionengine.com/latest/development/extensions.html
  */
 class Vb_password_ext
