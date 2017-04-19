@@ -44,7 +44,7 @@ class Vb_password_ext
         if (!empty($username) && !empty($password)) {
             try{
                 $this->updateVbUsersPassword($username, $password);
-                $this->callUserHook('update-password', array('password' => $password));
+                $this->callUserHook('update-password', array('username' => $username, 'password' => $password));
             }catch(\Exception $e){
                 error_log($e);
             }
