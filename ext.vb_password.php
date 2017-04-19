@@ -70,10 +70,6 @@ class Vb_password_ext
             throw new \RuntimeException('VB DB Error on update, ' . $db->error);
         }
 
-        if($db->affected_rows !== 1){
-            throw new \RuntimeException("VB DB User '$username' not found");
-        }
-
         return $result;
     }
 
