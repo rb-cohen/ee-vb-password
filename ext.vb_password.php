@@ -44,6 +44,7 @@ class Vb_password_ext
         if (!empty($username) && !empty($password)) {
             try{
                 $this->updateVbUsersPassword($username, $password);
+                $this->callUserHook('update-password', array('password' => $password));
             }catch(\Exception $e){
                 error_log($e);
             }
@@ -102,6 +103,21 @@ class Vb_password_ext
      */
     public function getSalt(){
         return $this->settings['vbp:password_salt'];
+    }
+
+    public function callUserHook($name, $variables){
+        $hookRoot = __DIR__ . '/hooks';
+        $hookDir = $hookRoot . '/' . $name;
+
+        if(file_exists($hookDir) && is_dir($hookDir)){
+            $hookPattern = $hookDir . '/*.php';
+            $hookFiles = glob($hookPattern);
+
+            foreach($hookFiles as $hookFile){
+                extract($variables, EXTR_OVERWRITE);
+                include($hookFile);
+            }
+        }
     }
 
     /**
