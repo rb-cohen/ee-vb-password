@@ -18,7 +18,9 @@ class Vb_password_ext
     public $settings_exist = true;
     public $settings = array();
     public $hooks = array(
-        'updateVbPassword' => 'after_member_save'
+        'after_member_save' => 'updateVbPassword',
+        'member_member_login_single' => 'updateVbPasswordOnLogin',
+        'member_member_login_multi' =>  'updateVbPasswordOnLogin'
     );
 
     /**
@@ -36,7 +38,7 @@ class Vb_password_ext
      * @param $member
      * @param $values
      */
-    public function updateVbPassword($member, $values)
+    public function updateVbPassword($member)
     {
         $username = $member->username;
         $password = $this->getPasswordFromPost();
@@ -48,6 +50,12 @@ class Vb_password_ext
             }catch(\Exception $e){
                 error_log($e);
             }
+        }
+    }
+
+    public function updateVbPasswordOnLogin($member){
+        if($this->isSyncPasswordOnLoginEnabled()) {
+            return $this->updateVbPassword($member);
         }
     }
 
@@ -92,8 +100,9 @@ class Vb_password_ext
     {
         $data = $_POST;
 
-        // sometimes the password is sent as $_POST[new_password], other times as $_POST[password_confirm]
-        $keysToTry = array('new_password', 'password_confirm');
+        // sometimes the password is sent as $_POST[new_password], other times as $_POST[password_confirm],
+        // or just $_POST[password]
+        $keysToTry = array('new_password', 'password_confirm', 'password');
         foreach($keysToTry as $passwordKey){
             $password = $this->searchArrayForPassword($data, $passwordKey);
             if($password !== null){
@@ -109,6 +118,13 @@ class Vb_password_ext
      */
     public function getSalt(){
         return $this->settings['vbp:password_salt'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSyncPasswordOnLoginEnabled(){
+        return (!empty($this->settings['vbp:sync_on_login']) && $this->settings['vbp:sync_on_login'] === 'y');
     }
 
     public function callUserHook($name, $variables){
@@ -183,6 +199,7 @@ class Vb_password_ext
         $settings['vbp:db_name']      = array('i', '', "forum");
         $settings['vbp:db_port']      = array('i', '', "3306");
         $settings['vbp:password_salt']      = array('i', '', "");
+        $settings['vbp:sync_on_login']      = array('r', array('y' => "Yes", 'n' => "No"), 'n');
 
         return $settings;
     }
@@ -195,7 +212,7 @@ class Vb_password_ext
      **/
     public function activate_extension()
     {
-        foreach ($this->hooks as $method => $hook) {
+        foreach ($this->hooks as $hook => $method) {
             $data = array(
                 'class' => __CLASS__,
                 'method' => $method,
@@ -243,7 +260,7 @@ class Vb_password_ext
         }
 
         // Add the new ones
-        foreach ($this->hooks as $method => $hook) {
+        foreach ($this->hooks as $hook => $method) {
             if (isset($dbexts[$hook]) === true) continue;
 
             $data = array(
@@ -262,7 +279,7 @@ class Vb_password_ext
 
         // Delete old ones
         foreach ($dbexts as $hook => $ext) {
-            if (in_array($hook, $this->hooks) === true) continue;
+            if (array_key_exists($hook, $this->hooks) === true) continue;
 
             ee()->db->where('hook', $hook);
             ee()->db->where('class', __CLASS__);
@@ -271,7 +288,6 @@ class Vb_password_ext
 
         // Update the version number for all remaining hooks
         ee()->db->where('class', __CLASS__)->update('extensions', array('version' => $this->version));
-
     }
 
 }

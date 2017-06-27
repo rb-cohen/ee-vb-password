@@ -3,7 +3,7 @@
 if (!defined('VB_PASSWORD_NAME')){
     define('VB_PASSWORD_NAME',         'VB Password Updater');
     define('VB_CLASS_NAME',   'vb_password');
-    define('VB_PASSWORD_VERSION',      '0.0.1');
+    define('VB_PASSWORD_VERSION',      '0.1.0');
 }
 
 return array(

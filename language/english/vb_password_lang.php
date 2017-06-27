@@ -9,5 +9,6 @@ $lang = array(
     'vbp:db_name'       => 'Database name',
     'vbp:db_port'       => 'Database port',
     'vbp:password_salt' => 'Password salt',
+    'vbp:sync_on_login' => 'Sync on login too'
 
 );
