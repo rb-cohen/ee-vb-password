@@ -91,7 +91,17 @@ class Vb_password_ext
     public function getPasswordFromPost()
     {
         $data = $_POST;
-        return $this->searchArrayForPassword($data);
+
+        // sometimes the password is sent as $_POST[new_password], other times as $_POST[password_confirm]
+        $keysToTry = array('new_password', 'password_confirm');
+        foreach($keysToTry as $passwordKey){
+            $password = $this->searchArrayForPassword($data, $passwordKey);
+            if($password !== null){
+                return $password;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -143,15 +153,15 @@ class Vb_password_ext
      * @param array $data
      * @return mixed|null
      */
-    protected function searchArrayForPassword(array $data)
+    protected function searchArrayForPassword(array $data, $passwordKey = 'new_password')
     {
         foreach ($data as $key => $value) {
-            if ($key === 'new_password' && !empty($value)) {
+            if ($key === $passwordKey && !empty($value)) {
                 return $value;
             }
 
             if (is_array($value)) {
-                $result = $this->searchArrayForPassword($value);
+                $result = $this->searchArrayForPassword($value, $passwordKey);
                 if ($result !== null) {
                     return $result;
                 }
